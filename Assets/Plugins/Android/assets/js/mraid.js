@@ -62,24 +62,6 @@
 	   /**********************************************/
 	   /************* JAVA ENTRY POINTS **************/
 	   /**********************************************/
-	 
-	   /**
-	    * Called by the JAVA SDK when initialization is complete.
-	    *
-	    * @returns string, 'OK'
-	    */
-	   mraidview.fireReadyEvent = function() {
-	      var handlers = listeners['ready'];
-	      if ( handlers != null ) {
-	         for ( var i = 0; i < handlers.length; i++ ) {
-	            handlers[i]( );
-	            
-	         }
-	      }
-	 
-	      return 'OK';
-	   };
-	 
 	   
 	   /**
 	    * Called by the JAVA SDK when an asset has been fully cached.
@@ -809,7 +791,7 @@
     // CONSTANTS ///////////////////////////////////////////////////////////////
     
     var STATES = mraid.STATES = {
-        UNKNOWN     :'unknown',
+        LOADING     :'loading',
         DEFAULT     :'default',
         RESIZED     :'resized',
         EXPANDED    :'expanded',
@@ -883,7 +865,7 @@
 
     // PRIVATE PROPERTIES (sdk controlled) //////////////////////////////////////////////////////
     
-    var state = STATES.UNKNOWN;
+    var state = STATES.LOADING;
     
     var size = {
         width:0,
@@ -992,7 +974,7 @@
     
     var changeHandlers = {
         state:function(val) {
-            if (state == STATES.UNKNOWN) {
+            if (state == STATES.LOADING) {
                 broadcastEvent(EVENTS.INFO, 'controller initialized, attempting callback');
             }
             broadcastEvent(EVENTS.INFO, 'setting state to ' + stringify(val));
@@ -1078,8 +1060,9 @@
             cacheRemaining = val;
         },
         viewable:function(val) {
-            broadcastEvent(EVENTS.VIEWABLECHANGE, 'setting viewable to ' + stringify(val));
-            viewable = val;
+        	broadcastEvent(EVENTS.INFO, 'setting viewable to ' + stringify(val));
+        	viewable = val;
+        	broadcastEvent(EVENTS.VIEWABLECHANGE, viewable);
         }
     };
     
@@ -1293,8 +1276,8 @@
     }
     // LEVEL 1 ////////////////////////////////////////////////////////////////////
    
-    
     mraid.signalReady = function() {
+    	broadcastEvent(EVENTS.READY);
     };
     
     mraid.addEventListener = function(event, listener) {
@@ -1641,9 +1624,7 @@
 	
 	mraid.useCustomClose = function(boolean) {
 		mraidview.useCustomClose(boolean);
-	}
-	
-	
+	}	
 })();
 
 (function () {
