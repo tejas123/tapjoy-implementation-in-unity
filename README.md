@@ -2,7 +2,7 @@
 
 Basic Information to Tapjoy Implementation In Unity
 
-The main goal of this tutorial is to give you Basic Information to Tapjoy Implementation In Unity.
+The main goal of this tutorial is to give you Basic Information about Tapjoy Implementation In Unity.
 
 You can find complete tutorial on [Tapjoy Implementation In Unity](http://www.theappguruz.com/blog/tapjoy-implementation-in-unity).
 
